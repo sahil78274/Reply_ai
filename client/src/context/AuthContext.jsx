@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
     if (token) {
       api
         .get('/auth/me')
-        .then(({ data }) => setUser(data.user))
+        .then((res) => setUser(res.user))
         .catch(() => logout())
         .finally(() => setLoading(false));
     } else {

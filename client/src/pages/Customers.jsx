@@ -12,7 +12,7 @@ import {
 import { Button } from '../components/ui/Button.jsx';
 import { Badge } from '../components/ui/Badge.jsx';
 import { Card } from '../components/ui/Card.jsx';
-import { initials, formatDate } from '../lib/utils.js';
+import { cn, initials, formatDate } from '../lib/utils.js';
 
 const LEAD_STATUSES = ['New', 'Interested', 'Converted', 'Not Interested'];
 

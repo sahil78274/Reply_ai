@@ -15,6 +15,7 @@ import {
   AlertTriangle,
   CheckCircle,
   RefreshCw,
+  X as XIcon,
 } from 'lucide-react';
 import { Card, CardBody } from '../components/ui/Card.jsx';
 import { Button } from '../components/ui/Button.jsx';

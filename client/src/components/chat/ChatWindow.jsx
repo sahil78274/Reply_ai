@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useSocket } from '../../context/SocketContext.jsx';
 import { api } from '../../services/api.js';
+import { Button } from '../ui/Button.jsx';
 import { MessageBubble } from './MessageBubble.jsx';
 import { AiStatusBanner } from './AiStatusBanner.jsx';
 import { formatTime } from '../../lib/utils.js';
