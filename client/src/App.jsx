@@ -25,7 +25,7 @@ import TeamManagement from './pages/TeamManagement.jsx';
 const PublicRoutes = () => (
   <Routes>
     <Route path="/login" element={<Login />} />
-    <Route path="/" element={<Navigate to="/" replace />} />
+    <Route path="/" element={<Navigate to="/login" replace />} />
   </Routes>
 );
 
