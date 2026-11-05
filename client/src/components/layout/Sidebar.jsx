@@ -47,7 +47,7 @@ function Bell(props) {
   return <Mail {...props} />;
 }
 
-export function Sidebar({ className, mobile = false, onClose }) {
+export function Sidebar({ className, mobile = false, onClose, open = false }) {
   const location = useLocation();
   const navigate = useNavigate();
   const { setMobileDrawerOpen } = useStore();
@@ -57,7 +57,11 @@ export function Sidebar({ className, mobile = false, onClose }) {
     <aside
       className={cn(
         'fixed left-0 top-0 h-screen z-40 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 transition-transform duration-300 flex flex-col',
-        mobile ? 'translate-x-full lg:translate-x-0 shadow-2xl' : 'w-64',
+        mobile
+          ? open
+            ? 'translate-x-0 shadow-2xl'
+            : 'translate-x-full shadow-2xl'
+          : 'w-[250px]',
         className
       )}
     >
@@ -119,6 +123,6 @@ export function DesktopSidebar() {
   return <Sidebar mobile={false} />;
 }
 
-export function MobileSidebar({ onClose }) {
-  return <Sidebar mobile onClose={onClose} />;
+export function MobileSidebar({ open, onClose }) {
+  return <Sidebar mobile open={open} onClose={onClose} />;
 }
