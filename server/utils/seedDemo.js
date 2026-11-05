@@ -86,9 +86,18 @@ export default async function seedDemo() {
   } catch (e) {
     user = null;
   }
-  if (!user) {
-    user = await userRepo.create({ ...DEMO_USER, password: await bcrypt.hash(DEMO_USER.password, 10) });
-  }
+  const hashedPassword = await bcrypt.hash(DEMO_USER.password, 10);
+
+if (!user) {
+  user = await userRepo.create({
+    ...DEMO_USER,
+    password: hashedPassword
+  });
+} else {
+  user = await userRepo.updateById(user._id, {
+    password: hashedPassword
+  });
+}
 
   // Only seed if conversations collection is empty (avoid duplicates on restart)
   try {

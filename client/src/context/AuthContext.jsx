@@ -21,17 +21,18 @@ export function AuthProvider({ children }) {
   }, [token]);
 
   const login = (tok, userData) => {
-    setToken(tok);
-    setUser(userData);
-    localStorage.setItem('ra_token', tok);
-  };
+  api.setToken(tok);
+  setToken(tok);
+  setUser(userData);
+  localStorage.setItem('ra_token', tok);
+};
 
   const logout = () => {
-    setToken(null);
-    setUser(null);
-    localStorage.removeItem('ra_token');
-    api.clearToken();
-  };
+  api.clearToken();
+  setToken(null);
+  setUser(null);
+  localStorage.removeItem('ra_token');
+};
 
   return (
     <AuthContext.Provider value={{ user, token, login, logout, loading, isAuthenticated: !!token }}>

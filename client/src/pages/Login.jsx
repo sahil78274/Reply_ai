@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAuth } from '../context/AuthContext.jsx';
 import { useNavigate } from 'react-router-dom';
 import { Lock, Mail, Bot, ArrowRight } from 'lucide-react';
 import { Button } from '../components/ui/Button.jsx';
@@ -8,6 +9,7 @@ import { api } from '../services/api.js';
 import { cn } from '../lib/utils.js';
 
 export default function Login() {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: 'demo@replyai.com', password: 'demo1234' });
   const [error, setError] = useState(null);
@@ -19,9 +21,8 @@ export default function Login() {
     setLoading(true);
     try {
       const data = await api.post('/auth/login', form);
-      api.setToken(data.token);
-      localStorage.setItem('ra_token', data.token);
-      navigate('/');
+login(data.token, data.user);
+navigate('/');
     } catch (err) {
       setError(err.data?.error || 'Login failed');
     } finally {
@@ -30,32 +31,24 @@ export default function Login() {
   };
 
   const handleDemo = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-    try {
-      const data = await api.post('/auth/login', { email: 'demo@replyai.com', password: 'demo1234' });
-      api.setToken(data.token);
-      localStorage.setItem('ra_token', data.token);
-      navigate('/');
-    } catch (err) {
-      // If user doesn't exist, register them
-      try {
-        const reg = await api.post('/auth/register', {
-          name: 'Demo Owner',
-          email: 'demo@replyai.com',
-          password: 'demo1234',
-        });
-        api.setToken(reg.token);
-        localStorage.setItem('ra_token', reg.token);
-      } catch (e2) {
-        api.setToken(localStorage.getItem('ra_token') || '');
-      }
-      navigate('/');
-    } finally {
-      setLoading(false);
-    }
-  };
+  e.preventDefault();
+  setError(null);
+  setLoading(true);
+
+  try {
+    const data = await api.post('/auth/login', {
+      email: 'demo@replyai.com',
+      password: 'demo1234',
+    });
+
+    login(data.token, data.user);
+    navigate('/');
+  } catch (err) {
+    setError(err.data?.error || err.message || 'Demo login failed');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950 px-4">

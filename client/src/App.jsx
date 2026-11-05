@@ -74,23 +74,32 @@ const AppRoutes = () => (
   </Routes>
 );
 
+function AppContent() {
+  const { token, loading } = useAuth();
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">
+      Loading ReplyAI...
+    </div>;
+  }
+
+  return token ? (
+    <SocketProvider token={token}>
+      <ToastProvider />
+      <ProtectedLayout>
+        <AppRoutes />
+      </ProtectedLayout>
+    </SocketProvider>
+  ) : (
+    <PublicRoutes />
+  );
+}
+
 export default function App() {
   return (
     <AuthProvider>
       <ThemeProvider>
-        {(() => {
-          const token = localStorage.getItem('ra_token');
-          return token ? (
-            <SocketProvider token={token}>
-              <ToastProvider />
-              <ProtectedLayout>
-                <AppRoutes />
-              </ProtectedLayout>
-            </SocketProvider>
-          ) : (
-            <PublicRoutes />
-          );
-        })()}
+        <AppContent />
       </ThemeProvider>
     </AuthProvider>
   );

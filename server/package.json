@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "node index.js",
-    "seed": "node utils/seedDemo.js"
+    "seed": "node seed.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

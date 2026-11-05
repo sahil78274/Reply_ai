@@ -109,9 +109,11 @@ const PORT = process.env.PORT || 5000;
 httpServer.listen(PORT, () => {
   console.log(`[ReplyAI] Server running on http://localhost:${PORT}`);
   console.log(`[ReplyAI] Demo mode: ${process.env.DEMO_MODE === 'true' ? 'ON' : 'off'}`);
-  if (process.env.SEED_DEMO === 'true') {
-    seedDemo().catch(console.error);
-  }
+  if (process.env.DEMO_MODE === 'true') {
+  seedDemo()
+    .then(() => console.log('[ReplyAI] Demo account ready'))
+    .catch((err) => console.error('[ReplyAI] Demo seed failed:', err.message));
+}
 });
 
 connectDB().catch((err) => {
