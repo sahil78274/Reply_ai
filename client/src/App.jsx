@@ -31,22 +31,29 @@ const PublicRoutes = () => (
 
 const ProtectedLayout = ({ children }) => {
   const { user, token, loading } = useAuth();
+  const { mobileDrawerOpen, setMobileDrawerOpen } = useStore();
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth < 1024 : false
+  );
   const location = useLocation();
 
   useEffect(() => {
     setMounted(true);
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   if (loading || !mounted) return null;
 
   return (
-    <div className="flex h-screen flex-col">
-      <Header />
-      <div className="flex-1 relative">
-        <DesktopSidebar />
-        <MobileSidebar />
-        <main className="lg:pl-64 lg:pr-80 lg:pt-14 pt-14 pb-4 overflow-y-auto lg:overflow-y-visible">
+    <div className="flex h-screen flex-col overflow-hidden">
+      <Header onMenuClick={() => setMobileDrawerOpen(true)} />
+      <div className="flex-1 relative overflow-hidden">
+        {!isMobile ? <DesktopSidebar /> : <MobileSidebar open={mobileDrawerOpen} onClose={() => setMobileDrawerOpen(false)} />}
+        <main className="pl-0 lg:pl-[250px] pt-14 pb-4 overflow-y-auto overflow-x-hidden min-h-0">
           {children}
         </main>
       </div>

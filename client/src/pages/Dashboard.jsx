@@ -134,9 +134,9 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-6">
+      <div className="flex-1 p-6">
         {/* Stats */}
-        <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6 mb-6">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
           {STATS.map((stat) => {
             const Icon = stat.icon;
             const value = stats?.[stat.key] ?? 0;
